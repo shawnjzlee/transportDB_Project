@@ -201,6 +201,28 @@ def main():
                     while False:
                         data = [location, trip_distance, uber_query(location, trip_distance),
                                 lyft_query(location, trip_distance), weather_query(location)]
+                                
+                count+= 1
+                total_locations += 1
+                total_hr_req += num_uber_reqs
+                
+                if count < num_locations:
+                    CSV_write(data, False)
+                else:
+                    CSV_write(data, True)
+                    count = 0
+                    run += 1
+                    
+                elapsed_time = time.time() - start_time
+            else:
+                while elapsed_time < 3600:
+                    elapsed_time = time.time() - start_time
+
+                count = 0
+                run = 0
+                total_locations = 0
+                total_hr_requests = 0
+                start_time = time.time()
 
 if __name__ == "__main__":
     main()
