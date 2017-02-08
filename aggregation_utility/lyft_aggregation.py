@@ -43,13 +43,22 @@ def get_lyft_price_estimates(client, location, dist):
         ride_type = json_parse(price, 'display_name')
         ride_price_min = clean(json_parse(price, 'estimated_cost_cents_min'))
         ride_price_max = clean(json_parse(price, 'estimated_cost_cents_max'))
+        
+        if ride_type == "NULL":
+            ride_type = " "
+        if ride_price_min == "NULL":
+            ride_price_min = 0
+        if ride_price_max == "NULL":
+            ride_price_max = 0
+        
         ride_price_min = float(ride_price_min) / 100
         ride_price_max = float(ride_price_max) / 100
 
         ride_surge = clean(json_parse(price, 'primetime_percentage'))
+        if ride_surge == "NULL":
+            ride_surge = 0
         
-        if not 'u0' in ride_surge:
-            ride_surge = 1 + (int(float(ride_surge)) / 100)
+        ride_surge = 1 + (int(float(ride_surge)) / 100)
 
         ride_price = ""
         if ride_price_min == ride_price_max:
