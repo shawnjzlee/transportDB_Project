@@ -54,10 +54,10 @@ def main():
         
     dst_file = "out.csv"
     
-    print "I: " + src_file
-    print "O: " + dst_file
-    print "S: " + str(sandbox)
-    print "P: " + str(privileged)
+    # print "I: " + src_file
+    # print "O: " + dst_file
+    # print "S: " + str(sandbox)
+    # print "P: " + str(privileged)
     
     # Set the distance (in mi) of Uber trip for the run
     trip_distance = 10

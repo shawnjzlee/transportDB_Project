@@ -47,7 +47,9 @@ def get_lyft_price_estimates(client, location, dist):
         ride_price_max = float(ride_price_max) / 100
 
         ride_surge = clean(json_parse(price, 'primetime_percentage'))
-        ride_surge = 1 + (int(ride_surge) / 100)
+        
+        if not 'u0' in ride_surge:
+            ride_surge = 1 + (int(float(ride_surge)) / 100)
 
         ride_price = ""
         if ride_price_min == ride_price_max:

@@ -22,11 +22,18 @@ def json_parse(json_list, parse_key):
 
 # Remove unwanted characters from parsed JSON data
 def clean(obj):
+    if obj == None:
+        return "NULL"
+        
     obj = obj.replace(" ", "")
     obj = obj.replace("}", "")
     obj = obj.replace("\'", "")
     obj = obj.replace("%", "")
     obj = obj.replace("$", "")
+    
+    if obj == "u0":
+        return "NULL"
+        
     return obj
 
 
@@ -182,9 +189,13 @@ def CSV_write(dst_file, data, EOR):
                 uber_surge[5] = product[2]
 
     for price in uber_price:
+        if(price == 'u0'):
+            return
         CSV.write(price + ",")
 
     for surge in uber_surge:
+        if(surge == 'u0'):
+            return
         CSV.write(surge + ",")
 
     lyft_eta = ["", "", ""]
