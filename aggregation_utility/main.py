@@ -7,6 +7,8 @@ from uber_aggregation import uber_query
 from lyft_aggregation import lyft_query
 from weather_aggregation import weather_query
 
+UBER_REQUEST_LIMIT = 2000
+
 def usage():
   print 'usage: ' + sys.argv[0] + '[option] ... [-h help | -s boolean | -p boolean | -i file | -o file ]'
   print 'Options and arguments (and corresponding environment variables):'
@@ -50,9 +52,12 @@ def main():
         usage()
         sys.exit(2)
         
-    # print output
-    # print "S: " + str(sandbox)
-    # print "P: " + str(privileged)
+    dst_file = "out.csv"
+    
+    print "I: " + src_file
+    print "O: " + dst_file
+    print "S: " + str(sandbox)
+    print "P: " + str(privileged)
     
     # Set the distance (in mi) of Uber trip for the run
     trip_distance = 10
@@ -62,7 +67,7 @@ def main():
     
     # Set CSV output location for results
     if not os.path.isfile(dst_file):
-        makeCSV(dst_file)
+        make_CSV(dst_file)
     else:
         CSV = open(dst_file, "a")
         CSV.write("\n\n")

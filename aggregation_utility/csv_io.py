@@ -1,4 +1,4 @@
-import sys, math
+import sys, math, csv
 from datetime import datetime
 
 CENSUS_FILE = 0
