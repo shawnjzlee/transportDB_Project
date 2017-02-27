@@ -38,13 +38,13 @@ if __name__ == "__main__":
                 .options(header='true') \
                 .load(sys.argv[1], schema=customSchema)
                 
-    temp = tripData.map(lambda row: {   'Medallion': row.medallion,
-                                        'Date/Time': row.pickup_datetime,
-                                        'Passengers': row.passenger_count,
-                                        'Source Longitude': row.pickup_longitude,
-                                        'Source Latitude': row.pickup_latitude,
-                                        'Target Longitude': row.dropoff_longitude,
-                                        'Target Latitude': row.dropoff_latitude}).collect() 
+    temp = tripData.map(lambda row: {   'medallion': row.medallion,
+                                        'pickup_datetime': row.pickup_datetime,
+                                        'passenger_count': row.passenger_count,
+                                        'pickup_long': row.pickup_longitude,
+                                        'pickup_lat': row.pickup_latitude,
+                                        'dropoff_long': row.dropoff_longitude,
+                                        'dropoff_lat': row.dropoff_latitude}).collect() 
 
     from_pattern = 'yyyy-MM-dd hh:mm:ss' # 2013-01-01 15:11:48
     to_pattern = 'yyyy-MM-dd'
