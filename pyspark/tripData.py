@@ -23,7 +23,7 @@ if __name__ == "__main__":
             StructField("medallion", StringType(), True), \
             StructField("hack_license", StringType(), True), \
             StructField("vendor_id", StringType(), True), \
-            StructField("rate_code", BooleanType(), True), \
+            StructField("rate_code", StringType(), True), \
             StructField("store_and_fwd_flag", StringType(), True), \
             StructField("pickup_datetime", TimestampType(), True), \
             StructField("dropoff_datetime", TimestampType(), True), \
