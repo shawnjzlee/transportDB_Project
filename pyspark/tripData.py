@@ -23,17 +23,17 @@ if __name__ == "__main__":
             StructField("medallion", StringType(), True), \
             StructField("hack_license", StringType(), True), \
             StructField("vendor_id", StringType(), True), \
-            StructField("rate_code", StringType(), True), \
+            StructField("rate_code", BooleanType(), True), \
             StructField("store_and_fwd_flag", StringType(), True), \
-            StructField("pickup_datetime", StringType(), True), \
-            StructField("dropoff_datetime", StringType(), True), \
+            StructField("pickup_datetime", TimestampType(), True), \
+            StructField("dropoff_datetime", TimestampType(), True), \
             StructField("passenger_count", FloatType(), True), \
             StructField("trip_time_in_secs", FloatType(), True), \
             StructField("trip_distance", FloatType(), True), \
-            StructField("pickup_longitude", FloatType(), True), \
-            StructField("pickup_latitude", FloatType(), True), \
-            StructField("dropoff_longitude", FloatType(), True), \
-            StructField("dropoff_latitude", FloatType(), True)])
+            StructField("pickup_longitude", DecimalType(), True), \
+            StructField("pickup_latitude", DecimalType(), True), \
+            StructField("dropoff_longitude", DecimalType(), True), \
+            StructField("dropoff_latitude", DecimalType(), True)])
 
     rides = sqlContext.read.format('com.databricks.spark.csv') \
                 .options(header='true') \
@@ -56,4 +56,4 @@ if __name__ == "__main__":
     # temp.withColumn('pickup_datetime', from_unixtime(unix_timestamp(df['date'], from_pattern), to_date_pattern)).show()
     # temp.withColumn('pickup_time', from_unixtime(unix_timestamp(df[''])) )
 
-    sc.parallelize(temp).saveToCassandra(keyspace='tripData', table='rides')
+    sc.parallelize(temp).saveToCassandra(keyspace='tripdata', table='rides')
