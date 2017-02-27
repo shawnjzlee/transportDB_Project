@@ -38,7 +38,7 @@ if __name__ == "__main__":
                 .options(header='true') \
                 .load(sys.argv[1], schema=customSchema)
                 
-    temp = tripData.map(lambda row: {   'medallion': row.medallion,
+    temp = rides.map(lambda row: {   'medallion': row.medallion,
                                         'pickup_datetime': row.pickup_datetime,
                                         'passenger_count': row.passenger_count,
                                         'pickup_long': row.pickup_longitude,
