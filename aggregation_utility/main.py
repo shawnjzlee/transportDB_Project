@@ -60,7 +60,7 @@ def main():
     # print "P: " + str(privileged)
     
     # Set the distance (in mi) of Uber trip for the run
-    trip_distance = 10
+    trip_distance = 15
     
     # Get lat, long, and location identifier from CSV
     location_data = get_location_data(src_file)
