@@ -56,4 +56,4 @@ if __name__ == "__main__":
     # temp.withColumn('pickup_datetime', from_unixtime(unix_timestamp(df['date'], from_pattern), to_date_pattern)).show()
     # temp.withColumn('pickup_time', from_unixtime(unix_timestamp(df[''])) )
 
-    sc.parallelize(temp).saveToCassandra(keyspace='tripData', table='rides')
+    sc.parallelize(temp).saveToCassandra(keyspace='tripdata', table='rides')
