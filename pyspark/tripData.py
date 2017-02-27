@@ -2,12 +2,13 @@ from __future__ import print_function
 
 import sys
 
+from datetime import datetime
 from pyspark.sql import SQLContext 
 from pyspark import SparkConf
 from pyspark import SparkContext
 from pyspark.sql.types import * 
+from pyspark.sql.functions import col, udf, unix_timestamp
 from pyspark_cassandra import CassandraSparkContext 
-
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
@@ -46,11 +47,13 @@ if __name__ == "__main__":
                                         'dropoff_long': row.dropoff_longitude,
                                         'dropoff_lat': row.dropoff_latitude}).collect() 
 
-    from_pattern = 'yyyy-MM-dd hh:mm:ss' # 2013-01-01 15:11:48
-    to_pattern = 'yyyy-MM-dd'
+    # from_pattern = 'yyyy-MM-dd hh:mm:ss' # 2013-01-01 15:11:48
+    # to_date_pattern = 'yyyy-MM-dd'
+    # to_time_pattern = 'hh:mm:ss'
     
-    print(temp)
+    # temp2 = temp.withColumn('pickup_datetime')
     
-    # temp.withColumn('part_date', from_unixtime(unix_timestamp(df['date'], from_pattern), to_pattern)).show()
+    # temp.withColumn('pickup_datetime', from_unixtime(unix_timestamp(df['date'], from_pattern), to_date_pattern)).show()
+    # temp.withColumn('pickup_time', from_unixtime(unix_timestamp(df[''])) )
 
-    # sc.parallelize(temp).saveToCassandra(keyspace='tripData', table='rides')
+    sc.parallelize(temp).saveToCassandra(keyspace='tripData', table='rides')
