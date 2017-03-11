@@ -14,6 +14,10 @@ def split_dateTime (pickup_datetime, flag):
     datetime = pickup_datetime.split()
     date = datetime[0]
     time = datetime[1]
+    
+    print(date)
+    print(time)
+    
     if flag:
         return time
     else:
@@ -55,7 +59,7 @@ if __name__ == "__main__":
                                     'pickup_long': row.pickup_longitude,
                                     'pickup_lat': row.pickup_latitude,
                                     'dropoff_long': row.dropoff_longitude,
-                                    'dropoff_lat': row.dropoff_latitude}) 
+                                    'dropoff_lat': row.dropoff_latitude}).collect()
 
     # from_pattern = 'yyyy-MM-dd hh:mm:ss' # 2013-01-01 15:11:48
     # to_date_pattern = 'yyyy-MM-dd'
