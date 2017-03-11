@@ -2,8 +2,8 @@ CREATE KEYSPACE tripData WITH REPLICATION = {'class':'SimpleStrategy', 'replicat
 
 CREATE TABLE tripData.rides (
   medallion varchar PRIMARY KEY,
-  pickup_date date,
-  pickup_time time,
+  pickup_date timeuuid,
+  pickup_time timeuuid,
   passenger_count float,
   pickup_long decimal,
   pickup_lat decimal,
