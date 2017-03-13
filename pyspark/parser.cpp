@@ -65,7 +65,7 @@ void fileParse(const string dataset) {
             unsigned y_index = ((lat - 40.484496) / 0.004356);
             unsigned x_index = ((lon + 74.268148) / 0.005822);
             
-            iterator->m_count.at(x_index).at(y_index) += 1;
+            if(y_index >= 0 && y_index < 100 && x_index >= 0 && x_index < 100)iterator->m_count.at(x_index).at(y_index) += 1;
         }
         else{
             //iterator->print();
