@@ -10,6 +10,19 @@ from pyspark.sql.types import *
 from pyspark.sql.functions import col, udf, unix_timestamp
 from pyspark_cassandra import CassandraSparkContext 
 
+def split_dateTime (pickup_datetime, flag):
+    datetime = pickup_datetime.split()
+    date = datetime[0]
+    time = datetime[1]
+    
+    print(date)
+    print(time)
+    
+    if flag:
+        return time
+    else:
+        return date
+
 if __name__ == "__main__":
     if len(sys.argv) != 2:
         print("Usage: tripData.py <file>", file=sys.stderr)
@@ -39,13 +52,14 @@ if __name__ == "__main__":
                 .options(header='true') \
                 .load(sys.argv[1], schema=customSchema)
                 
-    temp = rides.map(lambda row: {   'medallion': row.medallion,
-                                        'pickup_datetime': row.pickup_datetime,
-                                        'passenger_count': row.passenger_count,
-                                        'pickup_long': row.pickup_longitude,
-                                        'pickup_lat': row.pickup_latitude,
-                                        'dropoff_long': row.dropoff_longitude,
-                                        'dropoff_lat': row.dropoff_latitude}).collect() 
+    temp = rides.map(lambda row: {  'medallion': row.medallion,
+                                    'pickup_date': split_dateTime(row.pickup_datetime, 0),
+                                    'pickup_time': split_dateTime(row.pickup_datetime, 1),
+                                    'passenger_count': row.passenger_count,
+                                    'pickup_long': row.pickup_longitude,
+                                    'pickup_lat': row.pickup_latitude,
+                                    'dropoff_long': row.dropoff_longitude,
+                                    'dropoff_lat': row.dropoff_latitude}).collect()
 
     # from_pattern = 'yyyy-MM-dd hh:mm:ss' # 2013-01-01 15:11:48
     # to_date_pattern = 'yyyy-MM-dd'
