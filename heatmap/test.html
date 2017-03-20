@@ -1,145 +1,206 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <title>Heatmaps</title>
-    <style>
-      #map {
-        height: 100%;
-      }
-      html, body {
-        height: 100%;
-        margin: 0;
-        padding: 0;
-      }
-      #floating-panel {
-        position: absolute;
-        top: 10px;
-        left: 25%;
-        z-index: 5;
-        background-color: #fff;
-        padding: 5px;
-        border: 1px solid #999;
-        text-align: center;
-        font-family: 'Roboto','sans-serif';
-        line-height: 30px;
-        padding-left: 10px;
-      }
-      #floating-panel {
-        background-color: #fff;
-        border: 1px solid #999;
-        left: 25%;
-        padding: 5px;
-        position: absolute;
-        top: 10px;
-        z-index: 5;
-      }
-      #searchbox {
-        background-color: #fff;
-        border: 1px solid #999;
-        right: 25%;
-        padding: 5px;
-        position: absolute;
-        top: 20px;
-        z-index: 5;
-      }
-      /*#timeslider {*/
-      /*  background-color: #fff;*/
-      /*  border: 1px solid #999;*/
-      /*  right: 25%;*/
-      /*  padding: 5px;*/
-      /*  position: absolute;*/
-      /*  top: 20px;*/
-      /*  z-index: 5;*/
+    <head>
+        <meta charset="utf-8">
+        <title>Heatmaps</title>
+        <style>
+        #map {
+            height: 100%;
+        }
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        #floating-panel {
+            position: absolute;
+            top: 10px;
+            left: 25%;
+            z-index: 5;
+            background-color: #fff;
+            padding: 5px;
+            border: 1px solid #999;
+            text-align: center;
+            font-family: 'Roboto','sans-serif';
+            line-height: 30px;
+            padding-left: 10px;
+        }
+        #floating-panel {
+            background-color: #fff;
+            border: 1px solid #999;
+            left: 25%;
+            padding: 5px;
+            position: absolute;
+            top: 10px;
+            z-index: 5;
+        }
+        #searchbox {
+            background-color: #fff;
+            border: 1px solid #999;
+            right: 25%;
+            padding: 5px;
+            position: absolute;
+            top: 20px;
+            z-index: 5;
+        }
+        #timeslider {
+            background-color: #fff;
+            border: 1px solid #999;
+            right: 25%;
+            padding: 5px;
+            position: absolute;
+            top: 20px;
+            z-index: 5;
+        }
+        </style>
+    
+        <!-- Stylesheet -->
+        <link rel="stylesheet" href="css/bootstrap.css">
+        <link rel="stylesheet" href="css/nouislider.css">
+        <link rel="stylesheet" href="css/select2.css">
+        <link rel="stylesheet" href="css/propeller.css">
         
-      /*}*/
-    </style>
-  </head>
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    </head>
 
-  <body>
-    <div id="floating-panel">
-      <button onclick="toggleHeatmap()">Toggle Heatmap</button>
-      <button onclick="changeGradient()">Change gradient</button>
-      <button onclick="changeRadius()">Change radius</button>
-      <button onclick="changeOpacity()">Change opacity</button>
-    </div>
-    
-    <div id="searchbox">
-        <label for="mysearch">Enter Zipcode to search : </label> 
-        <input id="mysearch" type="search" placeholder="search">
-    </div>
-    
-    <!--<div id="timeslider">-->
+    <body>
+        <!-- Nav menu -->
+        <nav class="navbar navbar-inverse pmd-navbar navbar-fixed-top pmd-z-depth">
+            <div class="container-fluid"> 
+            <!-- Sidebar Toggle Button-->
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <a href="javascript:void(0);" class="btn btn-sm pmd-btn-fab pmd-btn-flat pmd-ripple-effect btn-primary pull-left margin-r8 pmd-sidebar-toggle"><i class="material-icons">menu</i></a>
+                <a class="navbar-brand" href="javascript:void(0);">Transportation Data Visualization</a> 
+            </div>
+            
+                <!-- Navbar Right icon -->		
+                <div class="pmd-navbar-right-icon pull-right"> 
+                <a href="javascript:void(0);" class="btn btn-sm pmd-btn-fab pmd-btn-flat pmd-ripple-effect btn-primary topbar-toggle visible-xs-inline-block" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"><i class="material-icons pmd-sm">more_vert</i></a>
+                </div> 
+            </div>
+        </nav>
+        
+        <!-- Sidebar -->
+        <section id="pmd-main">
+            <!-- Left sidebar -->
+            <aside class="pmd-sidebar sidebar-custom sidebar-default pmd-sidebar-slide-push pmd-sidebar-left pmd-z-depth sidebar-hide-custom" role="navigation" style="position: absolute;">
+                <ul class="nav pmd-sidebar-nav">
+                    <li> <a class="pmd-ripple-effect" href="javascript:toggleHeatmap();"><i class="material-icons media-left media-middle">layers_clear</i> <span class="media-body">Toggle Heatmap</span></a> </li>
+                    <li> <a class="pmd-ripple-effect" href="javascript:changeGradient();"><i class="material-icons media-left media-middle">terrain</i> <span class="media-body">Change Gradient</span></a> </li>
+                    <li> <a class="pmd-ripple-effect" href="javascript:changeRadius();"><i class="material-icons media-left media-middle">zoom_out_map</i> <span class="media-body">Change Radius</span></a> </li>
+                    <li> <a class="pmd-ripple-effect" href="javascript:changeOpacity();"><i class="material-icons media-left media-middle">layers</i> <span class="media-body">Change Opacity</span></a> </li>
+                </ul>
+                
+                <div class="pmd-card" style="margin-top: 60px;">
+                    <div class="pmd-card-title">
+                        <span class="pmd-card-subtitle-text">Dataset Selector (by Day)</span>
+                    </div>
+                    <div class="col-md-1"></div>
+                    <div class="col-md-10">
+                    	<select class="select-with-search form-control pmd-select2">
+                    		<option></option>
+                    		<option>January</option>
+                    		<option>February</option>
+                    		<option>March</option>
+                    		<option>April</option>
+                    		<option>May</option>
+                    		<option>June</option>
+                    		<option>July</option>
+                    		<option>August</option>
+                    		<option>September</option>
+                    		<option>October</option>
+                    		<option>November</option>
+                    		<option>December</option>
+                    	</select>
+                	</div>
+                	<div class="col-md-1"></div>
+                </div>
+                
+                <div class="pmd-card">
+                    <div class="pmd-card-title">
+                        <span class="pmd-card-subtitle-text">Time Selector (by Hour)</span>
+                    </div>
+                    <div class="col-md-1"></div>
+                    <div class="col-md-10">
+                        <div id="pmd-slider-range-tooltip-bottom"  class="pmd-range-slider pmd-range-tooltip pmd-range-tooltip-bottom"></div>
+                    </div>
+                    <div class="pmd-card col-md-1"></div>
+                </div>
 
-    <!--  <input id="slider" type="range" min="1" max="24" step="1" />-->
-    <!--</div>-->
-    
-
-    
-    
-    <div id="map"></div>
-
-
-  <script>
-      // This example requires the Visualization library. Include the libraries=visualization
-      // parameter when you first load the API. For example:
-      //<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDaBk_uddexQSU7paR_5lqCl45eYsnq0Y0&libraries=visualization">
-
-      var map, heatmap;
-
-      function initMap() {
-        map = new google.maps.Map(document.getElementById('map'), {
-          zoom: 13,
-          center: {lat: 40.713, lng: -74.006},
-          mapTypeId: 'roadmap'
-        });
-
-        heatmap = new google.maps.visualization.HeatmapLayer({
-          data: getPoints(),
-          map: map
-        });
-      }
-
-      function toggleHeatmap() {
-        heatmap.setMap(heatmap.getMap() ? null : map);
-      }
-
-      function changeGradient() {
-        var gradient = [
-          'rgba(0, 255, 255, 0)',
-          'rgba(0, 255, 255, 1)',
-          'rgba(0, 191, 255, 1)',
-          'rgba(0, 127, 255, 1)',
-          'rgba(0, 63, 255, 1)',
-          'rgba(0, 0, 255, 1)',
-          'rgba(0, 0, 223, 1)',
-          'rgba(0, 0, 191, 1)',
-          'rgba(0, 0, 159, 1)',
-          'rgba(0, 0, 127, 1)',
-          'rgba(63, 0, 91, 1)',
-          'rgba(127, 0, 63, 1)',
-          'rgba(191, 0, 31, 1)',
-          'rgba(255, 0, 0, 1)'
-        ]
-        heatmap.set('gradient', heatmap.get('gradient') ? null : gradient);
-      }
-
-      function changeRadius() {
-        heatmap.set('radius', heatmap.get('radius') ? null : 20);
-      }
-
-      function changeOpacity() {
-        heatmap.set('opacity', heatmap.get('opacity') ? null : 0.2);
-      }
-
-      function getPoints() {
-
-        var points = [];
-        //   for(var i = 0; i < output.length-1;i+=2){
-        //     points.push(new google.maps.LatLng(output[i], [i+1]) );
-        // //   new google.maps.LatLng(40.751266, -73.403355)
-        // }
-        return [
+            </aside>
+        
+            <div class="pmd-sidebar-overlay"></div>
+        </section>
+        
+        <div id="map"></div>
+        
+        <script>
+            var map, heatmap;
+            var myStyles =[
+                {
+                    featureType: "poi",
+                    elementType: "labels",
+                    stylers: [
+                          { visibility: "off" }
+                    ]
+                }
+            ];
+            
+            function initMap() {
+                map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 13,
+                center: {lat: 40.713, lng: -74.006},
+                mapTypeId: 'roadmap',
+                styles: myStyles
+                });
+                
+                heatmap = new google.maps.visualization.HeatmapLayer({
+                data: getPoints(),
+                map: map
+                });
+            }
+            
+            function toggleHeatmap() {
+                heatmap.setMap(heatmap.getMap() ? null : map);
+            }
+            
+            function changeGradient() {
+                var gradient = [
+                'rgba(0, 255, 255, 0)',
+                'rgba(0, 255, 255, 1)',
+                'rgba(0, 191, 255, 1)',
+                'rgba(0, 127, 255, 1)',
+                'rgba(0, 63, 255, 1)',
+                'rgba(0, 0, 255, 1)',
+                'rgba(0, 0, 223, 1)',
+                'rgba(0, 0, 191, 1)',
+                'rgba(0, 0, 159, 1)',
+                'rgba(0, 0, 127, 1)',
+                'rgba(63, 0, 91, 1)',
+                'rgba(127, 0, 63, 1)',
+                'rgba(191, 0, 31, 1)',
+                'rgba(255, 0, 0, 1)'
+                ]
+                heatmap.set('gradient', heatmap.get('gradient') ? null : gradient);
+                }
+                
+                function changeRadius() {
+                heatmap.set('radius', heatmap.get('radius') ? null : 20);
+                }
+                
+                function changeOpacity() {
+                heatmap.set('opacity', heatmap.get('opacity') ? null : 0.2);
+                }
+                
+                function getPoints() {
+                
+                var points = [];
+                //   for(var i = 0; i < output.length-1;i+=2){
+                //     points.push(new google.maps.LatLng(output[i], [i+1]) );
+                // //   new google.maps.LatLng(40.751266, -73.403355)
+                // }
+                return [
 new google.maps.LatLng(40.751266, -73.403355),
 new google.maps.LatLng(40.73509216308594,-73.9888610839843),
 new google.maps.LatLng(40.73727035522461,-73.988746643066),
@@ -9445,8 +9506,37 @@ new google.maps.LatLng(40.76834487915039,-73.9891281127929),
         ];
       }
     </script>
-    <script async defer
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDaBk_uddexQSU7paR_5lqCl45eYsnq0Y0&libraries=visualization&callback=initMap">
-    </script>
-  </body>
+        <script async defer
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDaBk_uddexQSU7paR_5lqCl45eYsnq0Y0&libraries=visualization&callback=initMap">
+        </script>
+        
+        <script type="text/javascript" src="js/jquery.js"></script>
+        <script type="text/javascript" src="js/bootstrap.js"></script>
+        <script type="text/javascript" src="js/propeller.js"></script>
+        
+        <script type="text/javascript" src="js/select2.full.js"></script>
+        <script type="text/javascript">
+        	$(document).ready(function() {
+        		$(".select-with-search").select2({
+        			theme: "bootstrap"
+        		});
+        	});
+        </script>
+        
+        <script type="text/javascript" src="js/wNumb.js"></script>
+        <script type="text/javascript" src="js/nouislider.js"></script>        
+        <script>
+        	// multiple range slider with default tooltip open
+        	var pmdSliderRangeTooltipBottom = document.getElementById('pmd-slider-range-tooltip-bottom');
+        	noUiSlider.create(pmdSliderRangeTooltipBottom, {
+        		start: [1, 1],
+        		connect: true,
+        		tooltips: [ wNumb({ decimals: 0 }), wNumb({ decimals: 0 }) ],
+        		range: {
+        			'min': 1,
+        			'max': 24
+        		}
+        	});
+        </script> 
+    </body>
 </html>
