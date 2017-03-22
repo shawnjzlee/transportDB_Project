@@ -1,0 +1,47 @@
+<!--https://www.w3schools.com/xml/xml_http.asp reference link for loading file-->
+<!DOCTYPE html>
+<html>
+<body>
+
+<div id="demo">
+
+<h1>The XMLHttpRequest Object</h1>
+
+<button type="button"
+onclick="loadDoc('latlong01.txt', myFunction)">Change Content
+</button>
+</div>
+
+<script>
+function loadDoc(url, cFunction) {
+  var xhttp;
+  xhttp=new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      cFunction(this);
+    }
+  };
+  xhttp.open("GET", url, true);
+  xhttp.send();
+}
+function myFunction(xhttp) {
+  //document.getElementById("demo").innerHTML =
+  var test = xhttp.responseText;
+  var res = test.split(/[\n\u0085\u2028\u2029]|\|/);
+  for(var i = 0; i < 1; ++i)
+    if(res[i] == undefined){
+      break;
+    }
+    else document.getElementById("demo").innerHTML = res[i];
+//670549
+}
+
+function myFunction2(xhttp) {
+  document.getElementById("demo").innerHTML =
+  xhttp.responseText;
+}
+
+</script>
+
+</body>
+</html>
